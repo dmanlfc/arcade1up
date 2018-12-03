@@ -2,7 +2,7 @@
 
 A couple of Python scripts to use the Power &amp; Volume buttons of the Arcade 1Up with a Raspberry Pi 3B+ assuming you have done similar mods to ETA Prime like so... https://www.youtube.com/watch?v=09DQCOr6zQM
 
-Note: Older generation Raspberry Pi boards with the same GPIO layout should also work.
+#### Note: Older generation Raspberry Pi boards with the same GPIO layout should also work.
 
 ## Firstly, wire up you Raspberry Pi 3B+ with the following pin layout:
 
@@ -14,21 +14,39 @@ Connect the black wire to Pin 5 (GPIO3) & the red wire to Pin 6 (Ground) of the 
 ### Volume switch
 Connect the brown wire to Pin 7 (GPIO4), red wire to Pin 9 (Ground) & the black wire to Pin 11 (GPIO17) of the GPIO header.
 
-Note: I use the audio out from the Pi directly to my amp (mini phono to 2x RCA)
+#### Note: I use the audio out from the Pi directly to my amp (mini phono to 2x RCA)
 
 ## Install
-I created a directory called scripts under my home folder.
-Copy your files there then edit your rc.local file like so...
+
+I created a directory called arcade1up under my home folder.
+These instructions will do the same.
+Hit F4 to exit out of RetroPie / Emulation Station to the terminal.
+
+Type:
+
+git clone https://github.com/dmanlfc/arcade1up.git
+
+#### Note: If you don't have git, you can download by typing sudo apt install git
+
+Once complete you will have a directory under your home directory (/home/pi) call arcade1up
+
+Next we edit your rc.local file like so...type:
 
 sudo nano /etc/rc.local
 
-In nano scroll down to after fi but before exit 0 & add the lines
-(sudo python /home/pi/scripts/shutdown.py) &
-(sudo python /home/pi/scripts/volume.py) &
+In nano scroll down to after fi line but before exit 0 & add the lines as so...
+
+(sudo python /home/pi/arcade1up/shutdown.py) &
+(sudo python /home/pi/arcade1up/volume.py) &
 
 Save the file (CTRL x, y, enter)
 
-## Reboot & profit!
+We also need to install the GPIO & Python packages for this to work.
+Type:
+
+sudo apt install python-rpi.gpio python3-rpi.gpio
+
+Reboot & profit! (sudo reboot)
 
 ### Special notes
 
