@@ -23,6 +23,6 @@ In nano scroll down to after fi but before exit 0 & add the lines
 (sudo python /home/pi/scripts/shutdown.py) &
 (sudo python /home/pi/scripts/volume.py) &
 
-Save the file
+Save the file (CTRL x, y, enter)
 
 ## Reboot & profit!
