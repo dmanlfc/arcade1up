@@ -1,6 +1,7 @@
 # Arcade 1Up scripts
 
-A couple of Python scripts to use the Power &amp; Volume buttons of the Arcade 1Up with a Raspberry Pi 3B+
+A couple of Python scripts to use the Power &amp; Volume buttons of the Arcade 1Up with a Raspberry Pi 3B+ assuming you have done similar mods to ETA Prime like so... https://www.youtube.com/watch?v=09DQCOr6zQM
+
 Note: Older generation Raspberry Pi boards with the same GPIO layout should also work.
 
 ## Firstly, wire up you Raspberry Pi 3B+ with the following pin layout:
@@ -28,3 +29,8 @@ In nano scroll down to after fi but before exit 0 & add the lines
 Save the file (CTRL x, y, enter)
 
 ## Reboot & profit!
+
+### Special notes
+
+The power switch will only power down the Raspberry Pi & not the monitor or speakers. You still need to physically power off at the wall. I haven't done anything with an IoT relay yet.
+If you power off at the wall please ensure before you start the Pi to toggle the switch back to on & then start the Pi otherwise within 10 seconds the Pi will power off again (the script see's the switch in the off position).
