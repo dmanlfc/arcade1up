@@ -5,6 +5,8 @@ Note: Older generation Raspberry Pi boards with the same GPIO layout should also
 
 ## Firstly, wire up you Raspberry Pi 3B+ with the following pin layout:
 
+I used 150mm Plug to Socket Jumper Leads to reach from the existing connectors to the Rasberry Pi munted on the side of the Arcade 1Up.
+
 ### Power switch
 Connect the black wire to Pin 5 (GPIO3) & the red wire to Pin 6 (Ground) of the GPIO header
 
