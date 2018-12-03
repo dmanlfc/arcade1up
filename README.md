@@ -13,7 +13,7 @@ Connect the black wire to Pin 5 (GPIO3) & the red wire to Pin 6 (Ground) of the 
 ### Volume switch
 Connect the brown wire to Pin 7 (GPIO4), red wire to Pin 9 (Ground) & the black wire to Pin 11 (GPIO17) of the GPIO header.
 
-Note: I use the audio out from the Pi directly to my amp (mini phone to 2x RCA)
+Note: I use the audio out from the Pi directly to my amp (mini phono to 2x RCA)
 
 ## Install
 I created a directory called scripts under my home folder.
