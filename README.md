@@ -70,5 +70,5 @@ Therefore to fix so we play at 75% volume we have to adjust the millibel volume 
 
 i.e. sudo nano /opt/retropie/supplementary/splashscreen/asplashscreen.sh
 
-edit the line #### omxplayer -o both -b --layer 10000 "$line"
-to read like so #### omxplayer -o both -b --vol -2259 --layer 10000 "$line"
+edit the line ' omxplayer -o both -b --layer 10000 "$line" '
+to read like so ' omxplayer -o both -b --vol -2259 --layer 10000 "$line" '
