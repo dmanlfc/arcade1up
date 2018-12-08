@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import time
+from time import sleep
 from subprocess import call
 
 GPIO.setwarnings(False)
@@ -13,26 +13,25 @@ while True:
         buttonState1 = GPIO.input(7)
         buttonState2 = GPIO.input(11)
 
-        if buttonState1 == False and buttonState2 == False and volumeState != 100:
+        if buttonState1 == False and buttonState2 == False and volumeState != 96:
                 print("Switch was set to Vol HIGH")
                 print(volumeState)
                 call(["amixer", "set", "PCM", "unmute"])
-                call(["amixer", "set", "PCM", "100%"])
-                volumeState = 100
-                time.sleep(1)
+                call(["amixer", "set", "PCM", "96%"])
+                volumeState = 96
+                sleep(1)
 
         if buttonState1 == True and buttonState2 == True and volumeState != 0:
                 print("Switch was set to MUTE")
                 print(volumeState)
                 call(["amixer", "set", "PCM", "mute"])
                 volumeState = 0
-                time.sleep(1)
+                sleep(1)
 
-        if buttonState1 == True and buttonState2 == False and volumeState != 70:
+        if buttonState1 == True and buttonState2 == False and volumeState != 75:
                 print("Switch was set to Vol LOW")
                 print(volumeState)
                 call(["amixer", "set", "PCM", "unmute"])
-                call(["amixer", "set", "PCM", "70%"])
-                volumeState = 70
-                time.sleep(1)
-
+                call(["amixer", "set", "PCM", "75%"])
+                volumeState = 75
+                sleep(1)
