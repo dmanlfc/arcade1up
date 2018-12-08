@@ -1,6 +1,7 @@
 # Arcade 1Up scripts
 
 Here I provide a couple of Python scripts to use the Power &amp; Volume buttons of the Arcade 1Up with a Raspberry Pi 3B+ assuming you have done similar mods to ETA Prime like so... https://www.youtube.com/watch?v=09DQCOr6zQM
+
 These scripts run in the background monitoring the toggle switches & then take appropriate action accordingly.
 
 #### Note: Older generation Raspberry Pi boards with the same GPIO layout should also work.
@@ -51,13 +52,23 @@ Reboot & profit! (sudo reboot)
 
 ### Special notes
 
-The power switch will only power down the Raspberry Pi & not the monitor or speakers. You still need to physically power off at the wall. I haven't done anything with an IoT relay yet.
+The power switch will only power down the Raspberry Pi & not the monitor or speakers. You still need to physically power off at the wall. I haven't done anything with something like an IoT relay yet.
 
-If you power off at the wall please ensure before you start the Pi to toggle the switch back to on & then start the Pi otherwise within 10 seconds the Pi will power off again (the script see's the switch in the off position).
+If you power off at the wall please ensure before you start the Pi to toggle the switch back to on & then start the Pi by turning on at the wall otherwise within 10 seconds the Pi will power off again (the script see's the switch in the off position).
 
 If you find the volume is too high (or low) for the toggle switch settings edit the % values of the script to you liking.
 i.e. press F4
 
 nano /home/pi/arcade1up/volume.py
 
-edit the line such as: call(["amixer", "set", "PCM", "100%"])
+edit the line such as: call(["amixer", "set", "PCM", "96%"])
+
+If you have a boot splash screen & decent speaker through an amp you may want to adjust omxplayers volume.
+By default omxplayer will play at 0db (96% on the Pi)
+For example I have a systemd service which starts a script called asplashscreen.sh
+Therefore to fix so we play at 75% volume we have to adjust the millibel volume to -2259 on the Pi
+
+i.e. sudo nano /opt/retropie/supplementary/splashscreen/asplashscreen.sh
+
+edit the line #### omxplayer -o both -b --layer 10000 "$line"
+to read like so #### omxplayer -o both -b --vol -2259 --layer 10000 "$line"
