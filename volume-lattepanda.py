@@ -19,8 +19,8 @@ signal.signal(signal.SIGINT, signal_handler)
 board = PyMata("/dev/ttyACM0", verbose=TRUE) #Need to verify Arduino port
 
 # Digital pins
-switchConnect1 = 0 #Assume D0
-switchConnect2 = 1 #Assume D1
+switchConnect1 = 20 #Assumed pin number for D0
+switchConnect2 = 21 #Assumed pin number for D1
 
 # Set the pin modes
 board.set_pin_mode(switchConnect1, board.PULLUP, board.DIGITAL) #Pull Up required
