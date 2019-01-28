@@ -1,0 +1,65 @@
+// use a SPST switch (non momentary) to act like a momentary switch
+// if detected pin change use pin 13 to power-up with LattePanda Alpha
+
+// this constant won't change:
+const byte buttonPin = 8;    // the pin that the switch button is attached to
+const byte ledPin = 13;       // the pin that the power switch is attached to (LED)
+// Variables will change:
+boolean buttonState = 0;         // current state of the button
+boolean lastButtonState = 0;     // previous state of the button
+
+void setup()
+{
+   // initialize the button pin as a input with internal pullup enabled
+   pinMode(buttonPin, INPUT);
+   // initialize the LED as an output:
+   pinMode(ledPin, OUTPUT);
+   // initialize serial communication:
+   Serial.begin(9600);
+}
+
+void loop()
+{
+   // read the pushbutton input pin:
+   buttonState = digitalRead(buttonPin);
+   // compare the buttonState to its previous state
+   if (buttonState != lastButtonState)
+   {
+      // if the state has changed, increment the counter
+      if (buttonState == HIGH)
+      {
+         // if the current state is HIGH then the button
+         // went from off to on:
+         Serial.println("on");
+         digitalWrite(ledPin, HIGH);
+         // delay for half a second & then set back to low
+         delay(500);
+         digitalWrite(ledPin, LOW);
+         // save the current state as the last state,
+         //for next time through the loop
+         lastButtonState = buttonState;
+      }
+      else
+      {
+         if (buttonState == LOW && lastButtonState == 0)
+         {
+            // Do nothing but a little delay
+            // Inital power on state
+            delay(500);
+         }
+         else
+         {
+            // if the current state is LOW then the button
+            // went from on to off:
+            Serial.println("off");
+            digitalWrite(ledPin, HIGH);
+            // delay for half a second & then set back to low
+            delay(500);
+            digitalWrite(ledPin, LOW);
+            // save the current state as the last state,
+            //for next time through the loop
+            lastButtonState = buttonState;
+        }
+      }
+   }
+}
