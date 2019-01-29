@@ -4,26 +4,28 @@
 // use the SPDT switch to change the volume from Mute to 70% to 96% depending on button state
 
 // this constant won't change:
-const byte buttonPin = 8;    // the pin that the switch button is attached to
-const byte volPin1 = 20;      // the volume switch state pin 1
-const byte volPin2 = 21;      // the volume switch state pin 2
-const byte outPin = 13;       // the pin that the power switch is attached to (LED)
+int buttonPin = 0;    // the pin that the switch button is attached to
+int volPin1 = 11;      // the volume switch state pin 1
+int volPin2 = 10;      // the volume switch state pin 2
+int outPin = 12;       // the pin that the power switch is attached to (LED)
 // Variables will change:
-boolean buttonState = 0;         // current state of the power switch
-boolean volumeState1 = 0;     // current state of the pin 1 volume switch
-boolean volumeState2 = 0;     // current state of the pin 2 volume switch
-boolean lastButtonState = 0;     // previous state of the power switch
-boolean lastVolumeState = 0;     // previous state of the volume switch
+int buttonState = 0;         // current state of the power switch
+int volumeState1 = 0;     // current state of the pin 1 volume switch
+int volumeState2 = 0;     // current state of the pin 2 volume switch
+int lastButtonState = 0;     // previous state of the power switch
+int lastVolumeState = 0;     // previous state of the volume switch
 
 void setup()
 {
    // initialize the button pin as a input
    pinMode(buttonPin, INPUT);
-   // initialize the colume pins as input accordingly
+   // initialize the volume pins as inputs accordingly
    pinMode(volumePin1, INPUT_PULLUP);
    pinMode(volumePin2, INPUT);
-   // initialize the LED as an output:
+   // initialize the pin as an output:
    pinMode(outPin, OUTPUT);
+   // ensure it's HIGH initially
+   digitalWrite(outPin, HIGH); 
    // initialize serial communication:
    Serial.begin(9600);
 }
@@ -43,10 +45,10 @@ void loop()
          // if the current state is HIGH then the button
          // went from off to on:
          Serial.println("ON");
-         digitalWrite(outPin, HIGH);
-         // delay for half a second & then set back to low
-         delay(500);
          digitalWrite(outPin, LOW);
+         // delay for 3 seconds & then set back to HIGH
+         delay(3000); // need 3 seconds if powered off
+         digitalWrite(outPin, HIGH);
          // save the current state as the last state,
          //for next time through the loop
          lastButtonState = buttonState;
@@ -56,7 +58,7 @@ void loop()
          if (buttonState == LOW && lastButtonState == 0)
          {
             // Do nothing but a little delay
-            // Inital power on state
+            // Assume inital power on state
             delay(500);
          }
          else
@@ -64,34 +66,32 @@ void loop()
             // if the current state is LOW then the button
             // went from on to off:
             Serial.println("OFF");
-            digitalWrite(outPin, HIGH);
-            // delay for half a second & then set back to low
-            delay(500);
             digitalWrite(outPin, LOW);
+            // delay for half a second & then set back to HIGH
+            delay(500);
+            digitalWrite(outPin, HIGH);
             // save the current state as the last state,
             //for next time through the loop
             lastButtonState = buttonState;
         }
       }
    }
-   if (lastVolumeState != 0)
+   if (volumeState1 == LOW && volumeState2 == LOW & lastVolumeState != 96)
    {
-      if (volumeState1 == LOW && volumeState2 == LOW)
-      {
-         Serial.pintln("HIGH");
-         lastVolumeState = 96;
-         delay(500);
-      }
-      if (volumeState1 == HIGH && volumeState2 == LOW)
-      {
-         Serial.pintln("MEDIUM");
-         lastVolumeState = 70;
-         delay(500);
-      }
+      Serial.pintln("HIGH");
+      lastVolumeState = 96;
+      delay(500);
    }
-   else
+   if (volumeState1 == HIGH && volumeState2 == LOW && lastVolumeState != 70)
+   {
+      Serial.pintln("MEDIUM");
+      lastVolumeState = 70;
+      delay(500);
+   }
+   if (volumeState1 == HIGH && volumeState2 == HIGH && lastVolumeState != 0)
    {
       Serial.println("MUTE");
+      lastVolumeState = 0;
       delay(500);
    }
 }
