@@ -1,97 +1,96 @@
 // Arduino code the the Arcade 1UP switches
 // use a SPST switch (non momentary) to act like a momentary switch
 // if detected pin change use pin 13 to power-up with LattePanda Alpha
-// use the SPDT switch to change the volume from Mute to 70% to 96% depending on button state
+// use the SPDT switch to change the volume from Mute to MEDIUM to HIGH depending on button state
+
+// Special notes
+//
+// Power switch - Red to Ground, Black to D0
+// Volume switch - Brown to Ground, Black to D10, Red to D11
+// Run output from D12 & Ground to SW + & - (Blue & White)
 
 // this constant won't change:
 int buttonPin = 0;    // the pin that the switch button is attached to
-int volPin1 = 11;      // the volume switch state pin 1
-int volPin2 = 10;      // the volume switch state pin 2
-int outPin = 12;       // the pin that the power switch is attached to (LED)
+int volPin1 = 10;      // the volume switch state pin 1
+int volPin2 = 11;      // the volume switch state pin 2
+int outPin = 12;       // the pin that will power on / off the LattePanda
+
 // Variables will change:
 int buttonState = 0;         // current state of the power switch
 int volumeState1 = 0;     // current state of the pin 1 volume switch
 int volumeState2 = 0;     // current state of the pin 2 volume switch
-int lastButtonState = 0;     // previous state of the power switch
-int lastVolumeState = 0;     // previous state of the volume switch
+int lastButtonState = -1;     // previous state of the power switch
+int powerDelay = 3000;  //3 seconds initially
 
 void setup()
 {
-   // initialize the button pin as a input
-   pinMode(buttonPin, INPUT);
-   // initialize the volume pins as inputs accordingly
-   pinMode(volPin1, INPUT_PULLUP);
-   pinMode(volPin2, INPUT);
-   // initialize the pin as an output:
-   pinMode(outPin, OUTPUT);
-   // ensure it's HIGH initially
-   digitalWrite(outPin, HIGH); 
-   // initialize serial communication:
-   Serial.begin(9600);
+  // initialize the button pin as a input
+  pinMode(buttonPin, INPUT_PULLUP);
+  // initialize the volume pins as inputs accordingly
+  pinMode(volPin1, INPUT_PULLUP);
+  pinMode(volPin2, INPUT);
+  // initialize the pin as an output:
+  pinMode(outPin, OUTPUT);
+  // ensure it's HIGH initially
+  digitalWrite(outPin, HIGH);
+  // initialize serial communication:
+  Serial.begin(9600);
 }
 
 void loop()
 {
-   // read the switches input pins:
-   buttonState = digitalRead(buttonPin);
-   volumeState1 = digitalRead(volPin1);
-   volumeState2 = digitalRead(volPin2);
-   // compare the buttonState to its previous state
-   if (buttonState != lastButtonState)
-   {
-      // if the state has changed, increment the counter
-      if (buttonState == HIGH)
-      {
-         // if the current state is HIGH then the button
-         // went from off to on:
-         Serial.println("ON");
-         digitalWrite(outPin, LOW);
-         // delay for 3 seconds & then set back to HIGH
-         delay(3000); // need 3 seconds if powered off
-         digitalWrite(outPin, HIGH);
-         // save the current state as the last state,
-         //for next time through the loop
-         lastButtonState = buttonState;
-      }
-      else
-      {
-         if (buttonState == LOW && lastButtonState == 0)
-         {
-            // Do nothing but a little delay
-            // Assume inital power on state
-            delay(500);
-         }
-         else
-         {
-            // if the current state is LOW then the button
-            // went from on to off:
-            Serial.println("OFF");
-            digitalWrite(outPin, LOW);
-            // delay for half a second & then set back to HIGH
-            delay(500);
-            digitalWrite(outPin, HIGH);
-            // save the current state as the last state,
-            //for next time through the loop
-            lastButtonState = buttonState;
-        }
-      }
-   }
-   if (volumeState1 == LOW && volumeState2 == LOW & lastVolumeState != 96)
-   {
-      Serial.println("HIGH");
-      lastVolumeState = 96;
-      delay(500);
-   }
-   if (volumeState1 == HIGH && volumeState2 == LOW && lastVolumeState != 70)
-   {
-      Serial.println("MEDIUM");
-      lastVolumeState = 70;
-      delay(500);
-   }
-   if (volumeState1 == HIGH && volumeState2 == HIGH && lastVolumeState != 0)
-   {
-      Serial.println("MUTE");
-      lastVolumeState = 0;
-      delay(500);
-   }
+  // read the switches input pins:
+  buttonState = digitalRead(buttonPin);
+  volumeState1 = digitalRead(volPin1);
+  volumeState2 = digitalRead(volPin2);
+  // compare the buttonState to its previous state
+  if (buttonState != lastButtonState)
+  {
+    // if the state has changed, increment the counter
+    if (buttonState == LOW)
+    {
+      // if the current state is LOW then the button
+      // went from off to on:
+      Serial.println("ON");
+      digitalWrite(outPin, LOW);
+      // delay for 3 seconds & then set back to HIGH
+      delay(powerDelay); // need 3 seconds if powered off
+      digitalWrite(outPin, HIGH);
+      // save the current state as the last state,
+      //for next time through the loop
+      lastButtonState = buttonState;
+      powerDelay = 500; //set to 1/2 a second for power off
+      //delay(500);
+    }
+    if (buttonState == HIGH)
+    {
+      // if the current state is HIGH then the button
+      // went from on to off:
+      Serial.println("OFF");
+      digitalWrite(outPin, LOW);
+      // delay for half a second & then set back to HIGH
+      delay(powerDelay);
+      digitalWrite(outPin, HIGH);
+      // save the current state as the last state,
+      //for next time through the loop
+      lastButtonState = buttonState;
+      powerDelay = 3000; //put back to 3 seconds for next power on
+      //delay(500);
+    }
+  }
+  if (volumeState1 == HIGH && volumeState2 == LOW)
+  {
+    Serial.println("HIGH");
+    delay(500);
+  }
+  if (volumeState1 == HIGH && volumeState2 == HIGH)
+  {
+    Serial.println("MEDIUM");
+    delay(500);
+  }
+  if (volumeState1 == LOW && volumeState2 == LOW)
+  {
+    Serial.println("MUTE");
+    delay(500);
+  }
 }
