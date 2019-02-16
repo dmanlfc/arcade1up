@@ -20,8 +20,8 @@ void setup()
    // initialize the button pin as a input
    pinMode(buttonPin, INPUT);
    // initialize the volume pins as inputs accordingly
-   pinMode(volumePin1, INPUT_PULLUP);
-   pinMode(volumePin2, INPUT);
+   pinMode(volPin1, INPUT_PULLUP);
+   pinMode(volPin2, INPUT);
    // initialize the pin as an output:
    pinMode(outPin, OUTPUT);
    // ensure it's HIGH initially
@@ -78,13 +78,13 @@ void loop()
    }
    if (volumeState1 == LOW && volumeState2 == LOW & lastVolumeState != 96)
    {
-      Serial.pintln("HIGH");
+      Serial.println("HIGH");
       lastVolumeState = 96;
       delay(500);
    }
    if (volumeState1 == HIGH && volumeState2 == LOW && lastVolumeState != 70)
    {
-      Serial.pintln("MEDIUM");
+      Serial.println("MEDIUM");
       lastVolumeState = 70;
       delay(500);
    }
