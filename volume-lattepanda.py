@@ -3,6 +3,7 @@ from time import sleep
 from subprocess import call
 
 # ensure PySerial is installed
+# Ubuntu: sudo apt install python-serial
 import serial
 
 try:
