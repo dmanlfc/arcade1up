@@ -7,7 +7,7 @@ from subprocess import call
 import serial
 
 try:
-   arduino = serial.Serial('/dev/ttyACM0', 9600)
+   arduino = serial.Serial('/dev/ttyACM0', 57600)
 except:
    print "Failed to connect on /dev/ttyACM0"
 
@@ -22,20 +22,22 @@ try:
         
       if volSwitchState == 'HIGH' and volumeState != 96:
          print("Switch was set to volume HIGH")
-         call(["amixer", "set", "PCM", "unmute"])
+         # no need to unmute
+         #call(["amixer", "set", "PCM", "unmute"])
          call(["amixer", "set", "PCM", "96%"])
          volumeState = 96
          sleep(1)
 
       if volSwitchState == 'MUTE' and volumeState != 0:
          print("Switch was set to MUTE")
-         call(["amixer", "set", "PCM", "mute"])
+         # ubuntu doesn't accept 'MUTE"
+         call(["amixer", "set", "PCM", "0%"])
          volumeState = 0
          sleep(1)
 
       if volSwitchState == 'MEDIUM' and volumeState != 75:
          print("Switch was set to volume MEDIUM")
-         call(["amixer", "set", "PCM", "unmute"])
+         #call(["amixer", "set", "PCM", "unmute"])
          call(["amixer", "set", "PCM", "75%"])
          volumeState = 75
          sleep(1)
