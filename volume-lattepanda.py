@@ -4,6 +4,7 @@ from subprocess import call
 
 # ensure PySerial is installed
 # Ubuntu: sudo apt install python-serial
+# or pip install pyserial
 import serial
 
 try:
@@ -17,7 +18,7 @@ volSwitchState = -1
 
 try:
    while True:
-      print arduino.readline()
+      #print arduino.readline()
       volSwitchState = arduino.readline().strip()
         
       if volSwitchState == 'HIGH' and volumeState != 96:
