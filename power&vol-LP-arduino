@@ -20,8 +20,8 @@ int powerState = -1;         // current state of the power switch
 int volumeState1 = -1;     // current state of the pin 1 volume switch
 int volumeState2 = -1;     // current state of the pin 2 volume switch
 int lastPowerState = -1;     // previous state of the power switch
-int poweredOnState = 1; // powered on state (start on for coding test)
-int powerDelay = 500;  // 1/2 a second initially
+int poweredOnState = -1; // powered on state (start on for coding test)
+int powerDelay = 3000;  // 1/2 a second initially
 
 void setup()
 {
