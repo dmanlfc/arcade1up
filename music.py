@@ -22,7 +22,7 @@ random.seed()
 volume = maxvolume # Store this for later use to handle fading out.
 
 #TODO: Fill in all of the current RetroPie Emulator process names in this list.
-emulatornames = ["retroarch","ags","uae4all2","uae4arm","capricerpi","linapple","hatari","stella","atari800","xroar","vice","daphne.bin","reicast","pifba","osmose","gpsp","jzintv","basiliskll","mame","advmame","dgen","openmsx","mupen64plus","gngeo","dosbox","ppsspp","simcoupe","scummvm","snes9x","pisnes","frotz","fbzx","fuse","gemrb","cgenesis","zdoom","eduke32","lincity","love","kodi","alephone","micropolis","openbor","openttd","opentyrian","cannonball","tyrquake","ioquake3","lr-tyrquake","lr-prboom","residualvm","xrick","sdlpop","uqm","stratagus","wolf4sdl","solarus","drastic","ports","smw","quake","doom","wolf3d","wolf4sdl-sw-v14","coolcv","lr-blueMSX","lr-freeintv"]
+emulatornames = ["retroarch","dolphin-emu-nog","ags","uae4all2","uae4arm","capricerpi","linapple","hatari","stella","atari800","xroar","vice","daphne.bin","reicast","pifba","osmose","gpsp","jzintv","basiliskll","mame","advmame","dgen","openmsx","mupen64plus","gngeo","dosbox","ppsspp","simcoupe","scummvm","snes9x","pisnes","frotz","fbzx","fuse","gemrb","cgenesis","zdoom","eduke32","lincity","love","kodi","alephone","micropolis","openbor","openttd","opentyrian","cannonball","tyrquake","ioquake3","lr-tyrquake","lr-prboom","residualvm","xrick","sdlpop","uqm","stratagus","wolf4sdl","solarus","drastic","ports","smw","quake","doom","wolf3d","wolf4sdl-sw-v14","coolcv","lr-blueMSX","lr-freeintv"]
 
 #test: Ran into some issues with script crashing on a cold boot, so we're camping for emulationstation (if ES can start, so can we!)
 esStarted = False
