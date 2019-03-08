@@ -1,9 +1,9 @@
-#A set of configuration files to run the Sega Model 3 emulator 'supermodel' under RetroPie
+# A set of configuration files to run the Sega Model 3 emulator 'supermodel' under RetroPie
 Note: This is for x64 systems only
 
-##supermodel build instructions under linux
+## supermodel build instructions under linux
 
-##Configuration files
+## Configuration files
 
 Place the emulators.cfg file in the /opt/retropie/configs/model3/ directory
 Note: You'll have to create this dir
