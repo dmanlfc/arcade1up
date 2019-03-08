@@ -30,12 +30,15 @@ make
 6. Now move to the binary directory to create directories & ini file 
 
 cd bin
+
 mkdir Config NVRAM Saves
+
 cp ../Config/Supermodel.ini Config
 
 7. Once complete copy the contents of the bin directory to /opt/retropie/emulators/model3/
 
 mkdir /opt/retropie/emulators/model3
+
 sudo cp . /opt/retropie/emulators/model3/
 
 Note: You wil need to create the model3 directory first
