@@ -1,7 +1,41 @@
-# A set of configuration files to run the Sega Model 3 emulator 'supermodel' under RetroPie
+# A set of configuration files to run the Sega Model 3 emulator 'Supermodel' under RetroPie
 Note: This is for x64 systems only
 
-## supermodel build instructions under linux
+## Supermodel build instructions under Ubuntu linux
+
+1. Install the required build packages
+sudo apt-get install subversion build-essential libsdl1.2-dev libglew1.5-dev zlib1g-dev
+
+2. Create the directory for the source code.
+
+mkdir Supermodel
+cd Supermodel
+
+3. Download the latest build using svn like so 
+
+svn checkout https://svn.code.sf.net/p/model3emu/code/trunk
+
+4. Move to the trunk directory
+
+cd trunk
+
+5. Now choose the correct Makefile for linux & 'make' 
+
+ln -s Makefiles/Makefile.UNIX Makefile
+make
+
+6. Now move to the binary directory to create directories & ini file 
+
+cd bin
+mkdir Config NVRAM Saves
+cp ../Config/Supermodel.ini Config
+
+7. Once complete copy the contents of the bin directory to /opt/retropie/emulators/model3/
+
+mkdir /opt/retropie/emulators/model3
+sudo cp . /opt/retropie/emulators/model3/
+
+Note: You wil need to create the model3 directory first
 
 ## Configuration files
 
