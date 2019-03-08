@@ -4,6 +4,7 @@ Note: This is for x64 systems only
 ## Supermodel build instructions under Ubuntu linux
 
 1. Install the required build packages
+
 sudo apt-get install subversion build-essential libsdl1.2-dev libglew1.5-dev zlib1g-dev
 
 2. Create the directory for the source code.
