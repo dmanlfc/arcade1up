@@ -60,3 +60,8 @@ i.e. JOY1_BUTTON11
 
 Re-compile the code & copy the updated supermodel binary to your /opt/retropie/emulators/model3 directory
 The associated button will now exit the game.
+
+## NVRAM folder
+
+The associated NVRAM folder provides game configuration to allow the game to start without error messages.
+Copy these files into the /opt/retropie/emulators/models3/NVRAM folder, overwriting the existing files where necessary.
