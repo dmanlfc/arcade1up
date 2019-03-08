@@ -49,4 +49,14 @@ Place the emulators.cfg file in the /opt/retropie/configs/model3/ directory
 Place the model3.sh bash script into the /opt/retropie/emulators/model3 directory
 ### Note: You'll need to also create this directory
 
-Take the contexts of the es_systems.cfg file and edit Emulation Stations es_systems.cfg located at /etc/emulationstation 
+Take the contexts of the es_systems.cfg file and edit Emulation Stations es_systems.cfg located at /etc/emulationstation
+
+## Supermodel exit button
+
+If you wish to create an exit button for Supermodel currently this cannot be achieved through the ini just yet (svn 775) as it's hard coded.
+Where you have downloaded the source code, go to the trunk/Src/inputs folder
+Edit the inputs.cpp file & add the appropriate extra input required to the uiExit line.
+i.e. JOY1_BUTTON11
+
+Re-compile the code & copy the updated supermodel binary to your /opt/retropie/emulators/model3 directory
+The associated button will now exit the game.
