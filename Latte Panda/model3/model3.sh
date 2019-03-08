@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # this will launch the model3 emulator with specific settings
 # requires the compiled supermodel binary
 # the Config, NVRAM & Saves folders need to be in here too
