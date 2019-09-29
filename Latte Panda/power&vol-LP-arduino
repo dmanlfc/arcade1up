@@ -1,15 +1,13 @@
 // Arduino code the the Arcade 1UP switches
-// use a SPST power switch (non momentary) to act like a momentary switch
-// if detected pin change use pin 20 to power-up with LattePanda Alpha
-// 
-// use the SPDT volume switch to print the volume from Mute to MEDIUM to HIGH depending on button state
-// this will be collected by the python script running on the OS
+// use a SPST switch (non momentary) to act like a momentary switch
+// if detected pin change use pin 13 to power-up with LattePanda Alpha
+// use the SPDT switch to change the volume from Mute to MEDIUM to HIGH depending on button state
 
 // Special notes
 //
 // Power switch - Red to Ground, Black to D0
 // Volume switch - Brown to Ground, Black to D7, Red to D8
-// Run output from D20, 5V & Ground to Relay with NO connections from Relay to SW + & - pins (Blue & White)
+// Run output from D12 & Ground to SW + & - (Blue & White)
 
 // constants won't change:
 int powerPin = 0;    // the pin that the switch button is attached to
@@ -23,7 +21,7 @@ int volumeState1 = -1;     // current state of the pin 1 volume switch
 int volumeState2 = -1;     // current state of the pin 2 volume switch
 int lastPowerState = -1;     // previous state of the power switch
 int poweredOnState = -1; // powered on state (start on for coding test)
-int powerDelay = 3000;  // 3 second initially (to power on from cold state)
+int powerDelay = 3000;  // 1/2 a second initially
 
 void setup()
 {
