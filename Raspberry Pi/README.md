@@ -37,9 +37,9 @@ sudo nano /etc/rc.local
 
 In nano scroll down to after fi line but before exit 0 & add the lines as so...
 
-(sudo python /home/pi/arcade1up/shutdown.py) &
+(sudo python /home/pi/arcade1up/Raspberry\ Pi/shutdown.py) &
 
-(sudo python /home/pi/arcade1up/volume.py) &
+(sudo python /home/pi/arcade1up/Raspberry\ Pi/volume.py) &
 
 Save the file (CTRL x, then y, then enter)
 
