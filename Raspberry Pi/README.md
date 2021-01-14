@@ -59,7 +59,7 @@ If you power off at the wall please ensure before you start the Pi to toggle the
 If you find the volume is too high (or low) for the toggle switch settings edit the % values of the script to you liking.
 i.e. press F4
 
-nano /home/pi/arcade1up/volume.py
+nano /home/pi/arcade1up/Raspberry\ Pi/volume.py
 
 edit the line such as: call(["amixer", "set", "PCM", "96%"])
 
