@@ -1,43 +1,56 @@
-#!/usr/bin/env python
-from time import sleep
-from subprocess import call
-
-# ensure PySerial is installed
-# Ubuntu: sudo apt install python-serial
-# or pip install pyserial
+#!/usr/bin/env python3
+import time
 import serial
+import subprocess
+
+# Ensure PySerial is installed
+# Ubuntu: sudo apt install python3-serial
+# or pip install pyserial
+
+# Serial port configuration
+serial_port = '/dev/ttyACM1'
+baud_rate = 57600
+
+# Initialize Serial connection
+try:
+    arduino = serial.Serial(serial_port, baud_rate)
+except Exception as e:
+    print("Failed to connect on", serial_port)
+    exit(1)
+
+# Mapping of switch states to volume levels
+switch_to_volume = {
+    'MUTE': 0,
+    'MEDIUM': 70,
+    'HIGH': 100
+}
+
+def set_volume(volume_level):
+    subprocess.run(["amixer", "-c", "0", "sset", "Master", f"{volume_level}%"])
 
 try:
-   arduino = serial.Serial('/dev/ttyACM1', 57600)
-except:
-   print "Failed to connect on /dev/ttyACM1"
+    current_volume_state = None
 
-# Set a starting volume state
-volumeState = None
-volSwitchState = -1
+    while True:
+        try:
+            vol_switch_state = arduino.readline().strip().decode("ASCII")
 
-try:
-   while True:
-      #print arduino.readline()
-      volSwitchState = arduino.readline().strip()
-        
-      if volSwitchState == 'HIGH' and volumeState != 97:
-         print("Switch was set to volume HIGH")
-         call(["amixer", "set", "Master", "97%"])
-         volumeState = 97
-         sleep(1)
+            if vol_switch_state in switch_to_volume:
+                target_volume = switch_to_volume[vol_switch_state]
 
-      if volSwitchState == 'MUTE' and volumeState != 0:
-         print("Switch was set to MUTE")
-         call(["amixer", "set", "Master", "0%"])
-         volumeState = 0
-         sleep(1)
+                if current_volume_state != target_volume:
+                    print(f"Switch was set to {vol_switch_state}")
+                    set_volume(target_volume)
+                    current_volume_state = target_volume
+                    time.sleep(1)
 
-      if volSwitchState == 'MEDIUM' and volumeState != 70:
-         print("Switch was set to volume MEDIUM")
-         call(["amixer", "set", "Master", "70%"])
-         volumeState = 70
-         sleep(1)
+        except serial.SerialException:
+            print("Serial connection lost")
+            break
+        except Exception as e:
+            print("Error:", e)
 
-except:
-   print ("Failed to read!")
+except KeyboardInterrupt:
+    print("Script terminated by user")
+finally:
+    arduino.close()
