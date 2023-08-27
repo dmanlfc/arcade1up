@@ -1,0 +1,65 @@
+// Arduino code for the Arcade 1UP switches
+// This script uses switches to control LattePanda Alpha power and volume
+
+// Pin definitions
+const int powerSwitchPin = 0;  // Power switch pin (SPST)
+const int volPin1 = 7;         // Volume switch pin 1 (SPDT)
+const int volPin2 = 8;         // Volume switch pin 2 (SPDT)
+const int relayPin = 20;       // Pin to power on/off LattePanda via Relay
+
+// Variables
+bool lastPowerSwitchState = HIGH;   // Previous state of the power switch
+bool isLattePandaPoweredOn = false; // True if LattePanda is powered on
+unsigned long lastPowerChangeTime = 0;
+const unsigned long powerOnDelay = 3000;   // 3 seconds delay for power on
+const unsigned long powerOffDelay = 500;   // 0.5 seconds delay for power off
+
+void setup() {
+  pinMode(powerSwitchPin, INPUT_PULLUP);
+  pinMode(volPin1, INPUT_PULLUP);
+  pinMode(volPin2, INPUT_PULLUP);
+  pinMode(relayPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Read switch input pins
+  bool currentPowerSwitchState = digitalRead(powerSwitchPin);
+  bool volumeState1 = digitalRead(volPin1);
+  bool volumeState2 = digitalRead(volPin2);
+  
+  // Power switch logic
+  if (currentPowerSwitchState != lastPowerSwitchState) {
+    if (currentPowerSwitchState == LOW) {
+      if (!isLattePandaPoweredOn) {
+        Serial.println("Turning LattePanda ON");
+        digitalWrite(relayPin, HIGH);
+        delay(powerOnDelay);
+        digitalWrite(relayPin, LOW);
+        lastPowerChangeTime = millis();
+        isLattePandaPoweredOn = true;
+      }
+    } else if (isLattePandaPoweredOn) {
+      Serial.println("Turning LattePanda OFF");
+      digitalWrite(relayPin, HIGH);
+      delay(powerOffDelay);
+      digitalWrite(relayPin, LOW);
+      lastPowerChangeTime = millis();
+      isLattePandaPoweredOn = false;
+    }
+    lastPowerSwitchState = currentPowerSwitchState;
+  }
+  
+  // Volume switch logic
+  if (millis() - lastPowerChangeTime > powerOnDelay) {
+    if (volumeState1 == HIGH && volumeState2 == LOW) {
+      Serial.println("Volume: HIGH");
+    } else if (volumeState1 == HIGH && volumeState2 == HIGH) {
+      Serial.println("Volume: MEDIUM");
+    } else if (volumeState1 == LOW && volumeState2 == HIGH) {
+      Serial.println("Volume: MUTE");
+    }
+  }
+  
+  delay(100);  // Small delay to prevent rapid readings
+}
