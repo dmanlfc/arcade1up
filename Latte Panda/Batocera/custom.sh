@@ -1,33 +1,56 @@
 #!/bin/sh
-# /userdata/system/custom
+
+logfile=/userdata/system/logs/scriptlog.txt
+
+log() {
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - $1" >> "$logfile"
+}
+
 case "$1" in
   start)
-    # first wait for wifi
+    log "Starting custom script"
+    
+    # Wait for WiFi connection
+    log "Waiting for WiFi"
     sleep 5
-    # now set the time
-    datetext=$(curl -I 'http://1.1.1.1/' 2>/dev/null | grep "Date:" |sed 's/Date: [A-Z][a-z][a-z], //g'| sed 's/\r//') ; echo "Date Retrieved = $datetext" ; echo -n "Date set = " ; date -s "$datetext" -D'%d %b %Y %T %Z'
-    # now get the python extras we need
-    echo "Getting pyserial"
-    curl https://files.pythonhosted.org/packages/1e/7d/ae3f0a63f41e4d2f6cb66a5b57197850f919f59e558159a4dd3a818f5082/pyserial-3.5.tar.gz -o pyserial-3.5.tar.gz
-    echo "Extracting pyserial"
-    gunzip pyserial-3.5.tar.gz
-    tar x -f pyserial-3.5.tar
-    cd pyserial-3.5
-    echo "Installing pyserial"
-    python setup.py install
-    # now run the volume python script
-    echo "Running volume python script"
-    python /userdata/system/volume.py & 
+    
+    # Retrieve and set the date
+    datetext=$(curl -Is 'http://1.1.1.1/' 2>/dev/null | awk '/^Date:/ {print $3" "$4" "$5" "$6" "$7}')
+    if [ -n "$datetext" ]; then
+        log "Date Retrieved = $datetext"
+        date -s "$datetext" +"%Y-%m-%d %H:%M:%S" >/dev/null 2>&1
+    else
+        log "Failed to retrieve date"
+    fi
+    
+    # Set the timezone
+    log "Now set the timezone"
+    TZ=Australia/Brisbane
+    hwclock --systz --localtime
+    
+    # Run the volume Python script
+    log "Running the volume Python script"
+    python /userdata/system/volume.py >/dev/null 2>&1 &
+    log "You should now be able to control the volume..."
     ;;
+
   stop)
-    echo "Stopping example"
-    # kill application you want to stop
-    kill $(ps aux | grep “python /userdata/system/volume.py” | awk ‘{print $2}’)
+    log "Stopping custom script"
+    
+    # Kill the Python script
+    pids=$(pgrep -f "python /userdata/system/volume.py")
+    if [ -n "$pids" ]; then
+        log "Killing Python script"
+        kill $pids
+    else
+        log "Python script not found"
+    fi
     ;;
+
   *)
-    echo "Usage: /userdata/system/custom{start|stop}"
+    echo "Usage: $0 {start|stop}"
     exit 1
     ;;
 esac
- 
+
 exit 0
